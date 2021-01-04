@@ -1,0 +1,97 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="store">
+            <h2><span jhiTranslate="equipmentManagementApp.store.detail.title">Store</span> {{ store.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="equipmentManagementApp.store.storeName">Store Name</span></dt>
+                <dd>
+                    <span>{{ store.storeName }}</span>
+                </dd>
+                <dt><span jhiTranslate="equipmentManagementApp.store.streetAddress">Street Address</span></dt>
+                <dd>
+                    <span>{{ store.streetAddress }}</span>
+                </dd>
+                <dt><span jhiTranslate="equipmentManagementApp.store.postalCode">Postal Code</span></dt>
+                <dd>
+                    <span>{{ store.postalCode }}</span>
+                </dd>
+                <dt><span jhiTranslate="equipmentManagementApp.store.city">City</span></dt>
+                <dd>
+                    <span>{{ store.city }}</span>
+                </dd>
+                <dt><span jhiTranslate="equipmentManagementApp.store.stateProvince">State Province</span></dt>
+                <dd>
+                    <span>{{ store.stateProvince }}</span>
+                </dd>
+            </dl>
+
+            <div class="alert alert-warning" id="no-result" *ngIf="storesEquipment?.length === 0">
+                <span jhiTranslate="equipmentManagementApp.storesEquipment.home.notFound">No stores equipment found</span>
+            </div>
+
+            <div class="table-responsive" id="entities" *ngIf="storesEquipment && storesEquipment.length > 0">
+                <table class="table table-striped" aria-describedby="page-heading">
+                    <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                            <th scope="col"  jhiSortBy="sku"><span jhiTranslate="equipmentManagementApp.storeEquipment.sku">Sku</span> <fa-icon icon="sort"></fa-icon></th>
+                            <th scope="col"  jhiSortBy="equipmentName"><span jhiTranslate="equipmentManagementApp.storeEquipment.equipmentName">Equipment Name</span> <fa-icon icon="sort"></fa-icon></th>
+                            <th scope="col"  jhiSortBy="locationInStore"><span jhiTranslate="equipmentManagementApp.storeEquipment.locationInStore">Location Store</span> <fa-icon icon="sort"></fa-icon></th>
+                            <th scope="col"  jhiSortBy="store"><span jhiTranslate="equipmentManagementApp.storeEquipment.store">Store</span> <fa-icon icon="sort"></fa-icon></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let storeEquip of storesEquipment; trackBy: trackId">
+                            <td><a [routerLink]="['/store-equipment', storeEquip.id, 'view']">{{ storeEquip.id }}</a></td>
+                            <td>{{ storeEquip.sku }}</td>
+                            <td>{{ storeEquip.equipmentName }}</td>
+                            <td>{{ storeEquip.locationInStore }}</td>
+                            <td style="color: green; font-weight: bold;">{{ storeEquip.store?.storeName }}</td>
+                            <td class="text-right">
+                                <div class="btn-group">
+                                    <button type="submit"
+                                            [routerLink]="['/store-equipment', storeEquip.id, 'view']"
+                                            class="btn btn-info btn-sm">
+                                        <fa-icon icon="eye"></fa-icon>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                                    </button>
+        
+                                    <button type="submit"
+                                            [routerLink]="['/store-equipment', storeEquip.id, 'edit']"
+                                            class="btn btn-primary btn-sm">
+                                        <fa-icon icon="pencil-alt"></fa-icon>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                                    </button>
+        
+                                    <button type="submit" (click)="delete(storeEquip)"
+                                            class="btn btn-danger btn-sm">
+                                        <fa-icon icon="times"></fa-icon>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/store', store.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
